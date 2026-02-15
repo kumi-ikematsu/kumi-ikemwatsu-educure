@@ -5,17 +5,18 @@ public class Main3 {
 
         for (int row = 1; row <= height; row++) {
 
-            // 左側の空白（段が下がるほど少なく）
-            for (int space = 1; space <= height - row; space++) {
+            // 空白
+            for (int s = 0; s < height - row; s++) {
                 System.out.print(" ");
             }
 
-            // 星（1, 3, 5, 7... と増える）
-            for (int star = 1; star <= row; star++) {
+            // ★（奇数個）
+            for (int star = 0; star < 2 * row - 1; star++) {
                 System.out.print("*");
             }
 
-            System.out.println(); // 改行
+            // 改行
+            System.out.println();
         }
     }
 }
