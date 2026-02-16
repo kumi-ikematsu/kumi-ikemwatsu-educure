@@ -1,20 +1,49 @@
+import java.util.Scanner;
+
 public class Main4 {
     public static void main(String[] args) {
 
-        String[] days = {"月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"};
+        Scanner scanner = new Scanner(System.in);
 
-        double[] temperatures = {25.5, 26.0, 24.5, 26.5, 27.0, 25.0, 24.0};
+        int[][] seats = new int[5][6];
 
-        double total = 0;
+        // 初期の予約済み座席（問題文に合わせる：行列は1始まり → 配列は0始まり）
+        seats[0][2] = 1; // 1行3列
+        seats[1][4] = 1; // 2行5列
+        seats[3][5] = 1; // 4行6列
+        seats[4][2] = 1; // 5行3列
 
-        // 7日分を表示しながら合計を計算
-        for (int i = 0; i < temperatures.length; i++) {
-            System.out.println(days[i] + "：" + temperatures[i] + "度");
-            total += temperatures[i];
+        System.out.println("予約前の座席状況：");
+        printSeats(seats);
+
+        System.out.print("予約したい座席の行番号（1-5）：");
+        int row = scanner.nextInt();
+
+        System.out.print("予約したい座席の列番号（1-6）：");
+        int col = scanner.nextInt();
+
+        if (row < 1 || row > 5 || col < 1 || col > 6) {
+            System.out.println("無効な座席番号です。");
+        } else if (seats[row - 1][col - 1] == 1) {
+            System.out.println("指定された座席はすでに予約済みです。");
+        } else {
+            seats[row - 1][col - 1] = 1;
+            System.out.println(row + "行" + col + "列の座席を予約しました。");
         }
 
-        double average = total / temperatures.length;
+        System.out.println("予約後の座席状況：");
+        printSeats(seats);
 
-        System.out.println("平均気温：" + average + "度");
+        scanner.close();
+    }
+
+    // 座席表示（括弧つき）
+    public static void printSeats(int[][] seats) {
+        for (int i = 0; i < seats.length; i++) {
+            for (int j = 0; j < seats[i].length; j++) {
+                System.out.print("[" + seats[i][j] + "]");
+            }
+            System.out.println();
+        }
     }
 }
