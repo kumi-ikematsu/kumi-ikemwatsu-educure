@@ -7,9 +7,11 @@ public class Main4 {
 
         int[][] seats = new int[5][6];
 
-        // 初期の予約済み座席（問題文に合わせる：行列は1始まり → 配列は0始まり）
+        // 初期の予約済み座席（問題文どおり）
         seats[0][2] = 1; // 1行3列
+        seats[1][1] = 1; // 2行2列 ← 追加
         seats[1][4] = 1; // 2行5列
+        seats[3][0] = 1; // 4行1列 ← 追加
         seats[3][5] = 1; // 4行6列
         seats[4][2] = 1; // 5行3列
 
@@ -37,7 +39,7 @@ public class Main4 {
         scanner.close();
     }
 
-    // 座席表示（括弧つき）
+    // 座席表示（[ ]形式）
     public static void printSeats(int[][] seats) {
         for (int i = 0; i < seats.length; i++) {
             for (int j = 0; j < seats[i].length; j++) {
