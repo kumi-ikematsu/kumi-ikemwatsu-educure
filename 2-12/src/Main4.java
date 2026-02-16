@@ -6,7 +6,7 @@ public class Main4 {
         do {
             System.out.println(num);
             num--;
-        } while (num >= 1);
+        } while (num >= 0);
 
     }
 }
