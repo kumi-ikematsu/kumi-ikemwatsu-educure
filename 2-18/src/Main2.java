@@ -2,14 +2,14 @@ public class Main2 {
 
     public static void main(String[] args) {
 
-        int score = 85; // 学生の得点
+        int score = 85;
 
         String result = judgeScore(score);
 
+        System.out.println("得点：" + score + "点");
         System.out.println("成績：" + result);
     }
 
-    // 成績を判定するメソッド
     public static String judgeScore(int score) {
 
         if (score >= 80) {

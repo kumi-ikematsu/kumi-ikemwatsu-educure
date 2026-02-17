@@ -1,29 +1,44 @@
-import java.util.Arrays;
-
 public class Main4 {
 
     public static void main(String[] args) {
 
-        int[] prices = {100, 200, 300};      // 商品価格
-        int[] quantities = {1, 2, 3};        // 数量
+        int[] prices = {100, 200, 300};
+        int[] quantities = {1, 2, 3};
 
         int[] totals = calculateTotals(prices, quantities);
 
-        System.out.println("商品価格：" + Arrays.toString(prices));
-        System.out.println("数量：" + Arrays.toString(quantities));
-        System.out.println("合計金額（税込）：" + Arrays.toString(totals));
+        // カンマ区切り表示
+        System.out.print("商品価格：");
+        printArray(prices);
+
+        System.out.print("数量：");
+        printArray(quantities);
+
+        System.out.print("合計金額（税込）：");
+        printArray(totals);
     }
 
-    // 各商品の税込み合計を計算するメソッド
     public static int[] calculateTotals(int[] prices, int[] quantities) {
 
-        int[] result = new int[prices.length];
+        int length = Math.min(prices.length, quantities.length);
+        int[] result = new int[length];
 
-        for (int i = 0; i < prices.length; i++) {
+        for (int i = 0; i < length; i++) {
             int subtotal = prices[i] * quantities[i];
-            result[i] = (int)(subtotal * 1.1);  // 消費税10%
+            result[i] = (int)(subtotal * 1.1);
         }
 
         return result;
+    }
+
+    // カンマ区切り表示用メソッド
+    public static void printArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]);
+            if (i < arr.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println();
     }
 }
