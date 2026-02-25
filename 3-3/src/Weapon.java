@@ -1,12 +1,18 @@
 public class Weapon {
-
     private String name;
     private int attack;
     private int durability;
+
     private final int MAX_DURABILITY = 10;
     private boolean isRepaired;
 
-    public Weapon(String name, int attack) {
+    // setWeaponで設定する前提なら、空のコンストラクタにしておくのが安全
+    public Weapon() {
+        this.isRepaired = false;
+    }
+
+    // 課題要件に出がちな「setWeapon」
+    public void setWeapon(String name, int attack) {
         this.name = name;
         this.attack = attack;
         this.durability = MAX_DURABILITY;
