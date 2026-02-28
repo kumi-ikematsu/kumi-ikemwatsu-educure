@@ -1,7 +1,7 @@
 public class Account {
 
-    String accountNumber;
-    int balance;
+    private String accountNumber;
+    private int balance;
 
     public Account(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -12,8 +12,15 @@ public class Account {
         balance += amount;
     }
 
-    // 出金メソッドを実装
     public void withdraw(int amount) {
         balance -= amount;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
     }
 }
