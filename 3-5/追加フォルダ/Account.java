@@ -12,6 +12,7 @@ public class Account {
         balance += amount;
     }
 
+    // 🔥 出金メソッドを実装
     public void withdraw(int amount) {
         balance -= amount;
     }

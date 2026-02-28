@@ -7,9 +7,9 @@ public class Main2 {
 
         player.displayInfo();
 
-        potion.heal(player);
+        potion.heal(player);  // 回復処理
 
-        // 🔥 表示はここでやる
+        // 🔥 表示はここで行う
         System.out.println("回復ポーションを使用しました");
         System.out.println("プレイヤーのHP: " + player.hp);
     }

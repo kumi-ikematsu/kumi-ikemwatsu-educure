@@ -9,7 +9,8 @@ public class Main6 {
         account.deposit(1000);
         System.out.println("残高: " + account.getBalance() + "円");
 
-        account.withdraw(500);
+        account.withdraw(500);  // 🔥 直接balanceを触らない
+
         System.out.println("出金後残高: " + account.getBalance() + "円");
     }
 }
