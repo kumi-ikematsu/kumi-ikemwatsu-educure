@@ -1,14 +1,27 @@
 public class Account {
 
-    String accountNumber;
-    int balance;
+    private String accountNumber;
+    private int balance;
 
     public Account(String accountNumber) {
         this.accountNumber = accountNumber;
-        this.balance = 0;   // 初期残高は0
+        this.balance = 0;
     }
 
     public void deposit(int amount) {
         balance += amount;
+    }
+
+    // 出金メソッドを追加
+    public void withdraw(int amount) {
+        balance -= amount;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
     }
 }

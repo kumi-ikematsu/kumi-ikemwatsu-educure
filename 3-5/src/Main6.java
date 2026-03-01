@@ -4,12 +4,13 @@ public class Main6 {
 
         Account account = new Account("12345");
 
-        System.out.println("口座番号: " + account.accountNumber);
+        System.out.println("口座番号: " + account.getAccountNumber());
 
         account.deposit(1000);
-        System.out.println("残高: " + account.balance + "円");
+        System.out.println("残高: " + account.getBalance() + "円");
 
-        account.balance -= 500;
-        System.out.println("出金後残高: " + account.balance + "円");
+        account.withdraw(500);  // 🔥 直接balanceを触らない
+
+        System.out.println("出金後残高: " + account.getBalance() + "円");
     }
 }
