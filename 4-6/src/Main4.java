@@ -11,12 +11,6 @@ public class Main4 {
         allMonsters.add("フェニックス");
         allMonsters.add("ユニコーン");
 
-        // 発見したモンスター（重複なし）
-        HashSet<String> discovered = new HashSet<>();
-        discovered.add("スライム");
-        discovered.add("ドラゴン");
-        discovered.add("ゴブリン");
-
         // 戦闘履歴（重複あり）
         ArrayList<String> battleHistory = new ArrayList<>();
         battleHistory.add("スライム");
@@ -28,6 +22,10 @@ public class Main4 {
         battleHistory.add("ドラゴン");
         battleHistory.add("ゴブリン");
         battleHistory.add("ゴブリン");
+
+        // 発見したモンスター（重複なし）
+        HashSet<String> discovered = new HashSet<>();
+        discovered.addAll(battleHistory);
 
         // 発見済みモンスター
         System.out.println("発見済みモンスター: " + discovered);
