@@ -1,34 +1,20 @@
-public class Main5 {
+import java.util.*;
 
+public class Main5 {
     public static void main(String[] args) {
 
-        GameCharacter hero = new GameCharacter("勇者A");
+        ArrayList<GameCharacter> characters = new ArrayList<>();
 
-        Equipment sword = new Equipment("伝説の剣", 100, 0);
-        Equipment shield = new Equipment("光の盾", 0, 80);
-        Equipment boots = new Equipment("魔法の靴", 10, 20);
+        characters.add(new GameCharacter("勇者", 80));
+        characters.add(new GameCharacter("戦士", 100));
+        characters.add(new GameCharacter("魔法使い", 60));
 
-        hero.addEquipment(sword);
-        hero.addEquipment(shield);
-        hero.addEquipment(boots);
+        // ソート
+        Collections.sort(characters);
 
-        hero.showEquipments();
-
-        Equipment copy = sword.clone();
-
-        if (sword.equals(copy)) {
-            System.out.println("装備の複製テスト：OK");
-        } else {
-            System.out.println("装備の複製テスト：NG");
+        // ソート結果を確認
+        for (GameCharacter c : characters) {
+            System.out.println(c);
         }
-
-        if (sword.compareTo(shield) < 0) {
-            System.out.println("装備の比較テスト：OK");
-        } else {
-            System.out.println("装備の比較テスト：NG");
-        }
-
-        hero.sortEquipments();
-        System.out.println("装備の強さソート：OK");
     }
 }

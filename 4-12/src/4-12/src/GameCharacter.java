@@ -1,31 +1,26 @@
-import java.util.*;
-
-public class GameCharacter {
+public class GameCharacter implements Comparable<GameCharacter> {
 
     private String name;
-    private List<Equipment> equipments;
+    private int attack;
 
-    public GameCharacter(String name) {
+    public GameCharacter(String name, int attack) {
         this.name = name;
-        this.equipments = new ArrayList<>();
+        this.attack = attack;
     }
 
-    public void addEquipment(Equipment e) {
-        equipments.add(e);
+    public int getAttack() {
+        return attack;
     }
 
-    public void showEquipments() {
-        System.out.println("=== キャラクター装備情報 ===");
-        System.out.println(name + " の装備:");
+    @Override
+    public int compareTo(GameCharacter other) {
 
-        int i = 1;
-        for (Equipment e : equipments) {
-            System.out.println(i + ". " + e);
-            i++;
-        }
+        // 安全な比較
+        return Integer.compare(this.attack, other.attack);
     }
 
-    public void sortEquipments() {
-        Collections.sort(equipments);
+    @Override
+    public String toString() {
+        return name + " 攻撃力:" + attack;
     }
 }

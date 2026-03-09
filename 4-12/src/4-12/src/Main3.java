@@ -1,24 +1,27 @@
 import java.util.*;
 
 public class Main3 {
-
     public static void main(String[] args) {
 
-        List<Character> characters = new ArrayList<>();
+        Character character1 = new Character("勇者", 500);
+        Character character2 = new Character("魔法使い", 300);
+        Character character3 = new Character("戦士", 800);
 
-        characters.add(new Character("勇者", 120));
-        characters.add(new Character("魔法使い", 80));
-        characters.add(new Character("戦士", 150));
+        ArrayList<Character> characters = new ArrayList<>();
 
-        System.out.println("=== キャラクター一覧 ===");
+        characters.add(character1);
+        characters.add(character2);
+        characters.add(character3);
 
-        for (Character c : characters) {
-            System.out.println(c);
-        }
+        // HPでソート
+        Collections.sort(characters, new Comparator<Character>() {
+            @Override
+            public int compare(Character c1, Character c2) {
 
-        Collections.sort(characters);
-
-        System.out.println("=== HP順にソート ===");
+                // 安全な比較
+                return Integer.compare(c1.getHp(), c2.getHp());
+            }
+        });
 
         for (Character c : characters) {
             System.out.println(c);
