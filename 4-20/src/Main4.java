@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 
 public class Main4 {
     public static void main(String[] args) {
@@ -15,7 +12,6 @@ public class Main4 {
                 return;
             }
 
-            // フォルダ作成（親もまとめて）
             Path backupDir = Paths.get("backup");
             Files.createDirectories(backupDir);
 
@@ -25,21 +21,25 @@ public class Main4 {
             // コピー
             Path backupFile = backupDir.resolve("source.txt");
             Files.copy(source, backupFile, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("ファイルが backup/ にコピーされました。");
 
+            // コピー確認
             if (Files.exists(backupFile)) {
-                System.out.println("コピー成功：backup に存在します。");
+                System.out.println("コピーの確認：成功");
             } else {
-                System.out.println("コピー失敗");
+                System.out.println("コピーの確認：失敗");
             }
 
             // 移動
             Path archiveFile = archiveDir.resolve("source.txt");
             Files.move(backupFile, archiveFile, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("ファイルが archive/ に移動されました。");
 
+            // 移動確認
             if (Files.exists(archiveFile)) {
-                System.out.println("移動成功：archive に存在します。");
+                System.out.println("移動の確認：成功");
             } else {
-                System.out.println("移動失敗");
+                System.out.println("移動の確認：失敗");
             }
 
         } catch (IOException e) {
