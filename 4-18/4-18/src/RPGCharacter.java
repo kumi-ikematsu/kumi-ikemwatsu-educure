@@ -14,7 +14,6 @@ public class RPGCharacter {
         if (level >= 99) {
             throw new IllegalStateException("最大レベルに達しています");
         }
-
         level++;
         hp += 10;
         mp += 5;
@@ -24,11 +23,11 @@ public class RPGCharacter {
         return level;
     }
 
-    public int getHP() {
+    public int getHp() {
         return hp;
     }
 
-    public int getMP() {
+    public int getMp() {
         return mp;
     }
 }
