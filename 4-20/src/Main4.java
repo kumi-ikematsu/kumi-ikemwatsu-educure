@@ -1,53 +1,46 @@
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 public class Main4 {
     public static void main(String[] args) {
 
         try {
-            // 元ファイル
-            File source = new File("source.txt");
+            Path source = Paths.get("source.txt");
 
-            if (!source.exists()) {
+            if (!Files.exists(source)) {
                 System.out.println("元ファイルが存在しません。");
                 return;
             }
 
-            // backupフォルダ
-            File backupDir = new File("backup");
-            if (!backupDir.exists()) {
-                backupDir.mkdir();
+            // フォルダ作成（親もまとめて）
+            Path backupDir = Paths.get("backup");
+            Files.createDirectories(backupDir);
+
+            Path archiveDir = Paths.get("archive");
+            Files.createDirectories(archiveDir);
+
+            // コピー
+            Path backupFile = backupDir.resolve("source.txt");
+            Files.copy(source, backupFile, StandardCopyOption.REPLACE_EXISTING);
+
+            if (Files.exists(backupFile)) {
+                System.out.println("コピー成功：backup に存在します。");
+            } else {
+                System.out.println("コピー失敗");
             }
 
-            // archiveフォルダ
-            File archiveDir = new File("archive");
-            if (!archiveDir.exists()) {
-                archiveDir.mkdir();
+            // 移動
+            Path archiveFile = archiveDir.resolve("source.txt");
+            Files.move(backupFile, archiveFile, StandardCopyOption.REPLACE_EXISTING);
+
+            if (Files.exists(archiveFile)) {
+                System.out.println("移動成功：archive に存在します。");
+            } else {
+                System.out.println("移動失敗");
             }
-
-            // コピー先
-            File backupFile = new File(backupDir, "source.txt");
-
-            Files.copy(
-                    source.toPath(),
-                    backupFile.toPath(),
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-
-            System.out.println("ファイルが backup/ にコピーされました。");
-
-            // 移動先
-            File archiveFile = new File(archiveDir, "source.txt");
-
-            Files.move(
-                    backupFile.toPath(),
-                    archiveFile.toPath(),
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-
-            System.out.println("ファイルが archive/ に移動されました。");
 
         } catch (IOException e) {
             e.printStackTrace();
