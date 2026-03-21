@@ -1,0 +1,42 @@
+import java.io.*;
+
+public class Main1 {
+    public static void main(String[] args) {
+
+        String fileName = "exercise.csv";
+
+        // ① CSVファイルを作成
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+            writer.println("名前,年齢,職業");
+            writer.println("山田,28,プログラマー");
+            System.out.println("CSVファイルを作成しました: " + fileName);
+        } catch (IOException e) {
+            System.out.println("ファイル作成に失敗しました");
+            return;
+        }
+
+        // ② CSVファイルを読み込み
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+
+            // ヘッダー行スキップ
+            br.readLine();
+
+            // 1行だけ読む
+            String line = br.readLine();
+
+            if (line != null && !line.isEmpty()) {
+
+                // ③ カンマで分割
+                String[] data = line.split(",");
+
+                // 出力
+                for (String item : data) {
+                    System.out.println(item);
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("ファイル読み込みに失敗しました");
+        }
+    }
+}
