@@ -7,24 +7,23 @@ public class Main1 {
         // 検索キーワード
         String keyword = "Java";
 
-        // URL作成（エンコード大事！）
+        // URL作成（エンコード）
         String searchURL = "https://www.google.com/search?q="
                 + URLEncoder.encode(keyword, "UTF-8");
 
         // URLオブジェクト
         URL url = new URL(searchURL);
 
-        // 接続して読み込み
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(url.openStream())
-        );
+        // ストリーム取得
+        InputStream is = url.openStream();
+        InputStreamReader isr = new InputStreamReader(is);
 
-        // 1行ずつ出力
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+        // 1文字ずつ読み込む
+        int data;
+        while ((data = isr.read()) != -1) {
+            System.out.print((char) data);
         }
 
-        reader.close();
+        isr.close();
     }
 }
