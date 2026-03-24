@@ -8,13 +8,14 @@ public class Main2 {
             // 検索キーワード
             String keyword = "Java";
 
-            // URL作成（エンコード）
-            String searchURL = "https://www.google.com/search?q="
-                    + URLEncoder.encode(keyword, "UTF-8");
+            // URL作成（エンドポイント：国立国会図書館サーチ SRU API）
+            String searchURL = "https://ndlsearch.ndl.go.jp/api/sru"
+                    + "?operation=searchRetrieve"
+                    + "&query=title%3D%22" + URLEncoder.encode(keyword, "UTF-8") + "%22";
 
             URL url = new URL(searchURL);
 
-            // ★ここがポイント（URLConnection）
+            // URLConnectionでAPIにアクセス
             URLConnection connection = url.openConnection();
 
             BufferedReader reader = new BufferedReader(
