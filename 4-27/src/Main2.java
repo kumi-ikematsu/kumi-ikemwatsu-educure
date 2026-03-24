@@ -1,42 +1,56 @@
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class Main2 {
-public static void main(String[] args) {
+    public static void main(String[] args) {
 
-```
-    try {
-        // 検索キーワード（文字列として設定）
-        String keyword = "Java";
+        try {
+            // 検索キーワード
+            String keyword = "Java";
 
-        // エンドポイント：国立国会図書館サーチ SRU API
-        // query=title="Java"：タイトルに"Java"を含む資料を検索（CQL形式）
-        String query = "title=\"" + keyword + "\"";
-        String searchURL = "https://ndlsearch.ndl.go.jp/api/sru"
-                + "?operation=searchRetrieve"
-                + "&query=" + URLEncoder.encode(query, "UTF-8");
+            // ▼ クエリ（CQL）
+            String query = "title=\"" + keyword + "\"";
 
-        URL url = new URL(searchURL);
+            // ▼ パラメータ付きURL（必要パラメータも追加）
+            String searchURL = "https://ndlsearch.ndl.go.jp/api/sru"
+                    + "?operation=searchRetrieve"
+                    + "&query=" + URLEncoder.encode(query, StandardCharsets.UTF_8)
+                    + "&maximumRecords=10"; // ← 例：取得件数指定
 
-        // URLクラスを使用してAPIにアクセス
-        URLConnection connection = url.openConnection();
+            URL url = new URL(searchURL);
 
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(connection.getInputStream(), "UTF-8")
-        );
+            // ▼ HttpURLConnectionを使用（←ここ重要）
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/xml");
 
-        // 検索結果のXMLをコンソールに表示
-        String line;
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+            int status = conn.getResponseCode();
+
+            BufferedReader reader;
+
+            if (status == 200) {
+                reader = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
+            } else {
+                reader = new BufferedReader(
+                        new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
+            }
+
+            // ▼ レスポンス出力
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            reader.close();
+            conn.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        reader.close();
-
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-}
-```
-
 }
