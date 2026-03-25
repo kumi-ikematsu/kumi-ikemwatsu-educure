@@ -12,18 +12,18 @@ public class Main2 {
             // 検索キーワード
             String keyword = "Java";
 
-            // ▼ クエリ（CQL）
+            // クエリ（CQL）
             String query = "title=\"" + keyword + "\"";
 
-            // ▼ パラメータ付きURL（必要パラメータも追加）
+            // ★ 必須パラメータ version を追加
             String searchURL = "https://ndlsearch.ndl.go.jp/api/sru"
                     + "?operation=searchRetrieve"
+                    + "&version=1.2"
                     + "&query=" + URLEncoder.encode(query, StandardCharsets.UTF_8)
-                    + "&maximumRecords=10"; // ← 例：取得件数指定
+                    + "&maximumRecords=10";
 
             URL url = new URL(searchURL);
 
-            // ▼ HttpURLConnectionを使用（←ここ重要）
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/xml");
@@ -40,7 +40,6 @@ public class Main2 {
                         new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
             }
 
-            // ▼ レスポンス出力
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
