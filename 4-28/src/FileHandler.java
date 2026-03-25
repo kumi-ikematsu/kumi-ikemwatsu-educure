@@ -6,44 +6,33 @@ import java.io.IOException;
 import java.util.List;
 
 public class FileHandler {
-
     public void exportToCSV(List<Word> words, String filename) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(filename));
-
-        for (Word word : words) {
-            writer.write(word.getEnglish() + "," + word.getJapanese());
-            writer.newLine();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Word word : words) {
+                writer.write(word.getEnglish() + "," + word.getJapanese());
+                writer.newLine();
+            }
         }
-
-        writer.close();
     }
 
     public int importFromCSV(String filename, WordManager wordManager) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
-        String line;
-        int count = 0;
-
-        while ((line = reader.readLine()) != null) {
-            String[] parts = line.split(",");
-
-            if (parts.length != 2) {
-                reader.close();
-                throw new IOException("CSVファイルの形式が不正です。");
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            int count = 0;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length != 2) {
+                    throw new IOException("CSVファイルの形式が不正です。");
+                }
+                String english = parts[0].trim();
+                String japanese = parts[1].trim();
+                if (english.isEmpty() || japanese.isEmpty()) {
+                    throw new IOException("CSVファイルの形式が不正です。");
+                }
+                wordManager.addWord(new Word(english, japanese));
+                count++;
             }
-
-            String english = parts[0].trim();
-            String japanese = parts[1].trim();
-
-            if (english.isEmpty() || japanese.isEmpty()) {
-                reader.close();
-                throw new IOException("CSVファイルの形式が不正です。");
-            }
-
-            wordManager.addWord(new Word(english, japanese));
-            count++;
+            return count;
         }
-
-        reader.close();
-        return count;
     }
 }
