@@ -1,1 +1,33 @@
+【問題1】
+SELECT title, publication_year
+FROM books
+WHERE author = '田中 一郎';
 
+
+
+【問題2】
+INSERT INTO books (title, author, publication_year, genre, loan_date)
+VALUES ('SQLの応用', '鈴木 一郎', 2019, '技術書', '2019-01-01');
+
+SELECT * FROM books
+WHERE title = 'SQLの応用';
+
+
+
+【問題3】
+DELETE FROM books
+WHERE author = '山田 花子';
+
+SELECT * FROM books;
+
+
+【問題4】
+UPDATE books
+SET title = 'SQL入門'
+WHERE title = '未来のSQL';
+
+【問題5】
+SELECT * FROM books
+WHERE publication_year >= 2000
+AND genre = '小説'
+ORDER BY publication_year DESC;
