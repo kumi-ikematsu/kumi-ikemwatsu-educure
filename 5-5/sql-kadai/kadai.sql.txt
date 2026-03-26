@@ -10,7 +10,7 @@ FROM employees;
 -- 問題3
 UPDATE employees
 SET department = '営業'
-WHERE name = '田中 次郎';
+WHERE name = '田中 一郎';
 
 -- 問題4
 DELETE FROM employees
@@ -18,5 +18,7 @@ WHERE department = '人事';
 
 -- 問題5
 INSERT INTO employees (name, department, salary, hire_date) VALUES
-('山崎 信夫', 'IT', 60000, '2023-09-15'),
-('山本 三郎', '開発', 58000, '2023-09-20');
+('山崎 一郎', 'IT', 60000, '2023-09-15'),
+('山本 花子', '開発', 58000, '2023-09-20');
+
+SELECT * FROM employees;
