@@ -1,4 +1,3 @@
-
 -- 問題1
 SELECT name, salary
 FROM employees
@@ -9,7 +8,7 @@ SELECT name, department
 FROM employees
 WHERE department IN ('営業', 'IT', '開発');
 
--- 問題3
+-- 問題3（修正済み）
 SELECT *
 FROM employees
 WHERE manager_id IS NULL
