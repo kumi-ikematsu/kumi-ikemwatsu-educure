@@ -1,1 +1,28 @@
 
+-- 問題1
+SELECT name, salary
+FROM employees
+WHERE salary >= 48000;
+
+-- 問題2
+SELECT name, department
+FROM employees
+WHERE department IN ('営業', 'IT', '開発');
+
+-- 問題3
+SELECT employee_id, name, department, salary, hire_date
+FROM employees
+WHERE manager_id IS NULL
+AND name LIKE '%田%';
+
+-- 問題4
+SELECT name, department, salary
+FROM employees
+WHERE salary BETWEEN 50000 AND 60000
+ORDER BY salary ASC;
+
+-- 問題5
+SELECT name, department
+FROM employees
+WHERE department != '営業'
+AND salary >= 55000;
