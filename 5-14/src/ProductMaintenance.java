@@ -1,6 +1,5 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 
 public class ProductMaintenance {
 
@@ -16,18 +15,11 @@ public class ProductMaintenance {
             conn = DriverManager.getConnection(url, user, password);
             conn.setAutoCommit(false);
 
-            String sql = "UPDATE products SET price = ? WHERE product_id = ?";
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, 1000); // 仮
-            pstmt.setInt(2, 1);    // 仮
-
-            int result = pstmt.executeUpdate();
-
-            if (result > 0) {
-                System.out.println("更新成功");
-            } else {
-                System.out.println("対象データなし");
-            }
+            // ▼処理呼び出し（必要に応じて変更OK）
+            InsertProduct.insert(conn, "サンプル商品", 1000, 10);
+            UpdateProduct.update(conn, 2000, 1);
+            UpdateStock.updateStock(conn, 5, 1);
+            SearchProduct.search(conn, 1);
 
             conn.commit();
 
@@ -35,7 +27,7 @@ public class ProductMaintenance {
 
             try {
                 if (conn != null) {
-                    conn.rollback(); // ←これ良い🔥
+                    conn.rollback();
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -47,7 +39,7 @@ public class ProductMaintenance {
 
             try {
                 if (conn != null) {
-                    conn.close(); // ←これも良い🔥
+                    conn.close();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
