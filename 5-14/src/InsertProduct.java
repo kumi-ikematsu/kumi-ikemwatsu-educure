@@ -1,17 +1,26 @@
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class InsertProduct {
 
-    public static void insert(Connection conn, String name, int price, int stock) {
+    public static void main(String[] args) {
+
+        Connection conn = null;
 
         try {
+            String url = "jdbc:postgresql://localhost:5432/educure_db";
+            String user = "postgres";
+            String password = "password";
+
+            conn = DriverManager.getConnection(url, user, password);
+
             String sql = "INSERT INTO products (name, price, stock) VALUES (?, ?, ?)";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, name);
-            pstmt.setInt(2, price);
-            pstmt.setInt(3, stock);
+            pstmt.setString(1, "テスト商品");
+            pstmt.setInt(2, 1000);
+            pstmt.setInt(3, 10);
 
             int result = pstmt.executeUpdate();
 
