@@ -3,59 +3,33 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 public class UpdateProduct {
-
     public static void main(String[] args) {
 
-        Connection conn = null;
+        String url = "jdbc:postgresql://localhost:5432/educure_db";
+        String user = "postgres";
+        String password = "password";
 
-        try {
-            String url = "jdbc:postgresql://localhost:5432/educure_db";
-            String user = "postgres";
-            String password = "password";
+        String updatePriceSql =
+                "UPDATE products SET price = price - 5000 WHERE product_name = ?";
+        String updateStockSql =
+                "UPDATE products SET stock = stock + 5 WHERE price < 50000";
 
-            conn = DriverManager.getConnection(url, user, password);
-            conn.setAutoCommit(false);
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt1 = conn.prepareStatement(updatePriceSql);
+             PreparedStatement pstmt2 = conn.prepareStatement(updateStockSql)) {
 
-            int newPrice = 2000;
-            int productId = 1;
+            // ①タブレット値下げ
+            pstmt1.setString(1, "タブレット");
+            int priceCount = pstmt1.executeUpdate();
+            System.out.println("価格を値下げした行数：" + priceCount);
 
-            String sql = "UPDATE products SET price = ? WHERE product_id = ?";
-
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, newPrice);
-            pstmt.setInt(2, productId);
-
-            int result = pstmt.executeUpdate();
-
-            if (result > 0) {
-                System.out.println("更新成功");
-            } else {
-                System.out.println("対象データなし");
-            }
-
-            conn.commit();
+            // ②在庫増加
+            int stockCount = pstmt2.executeUpdate();
+            System.out.println("在庫を増やした行数：" + stockCount);
 
         } catch (Exception e) {
-
-            try {
-                if (conn != null) {
-                    conn.rollback();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
+            System.out.println("エラーが発生しました。");
             e.printStackTrace();
-
-        } finally {
-
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 }
