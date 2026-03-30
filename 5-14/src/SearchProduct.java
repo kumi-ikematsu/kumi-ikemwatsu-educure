@@ -1,12 +1,23 @@
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class SearchProduct {
 
-    public static void search(Connection conn, int productId) {
+    public static void main(String[] args) {
+
+        Connection conn = null;
 
         try {
+            String url = "jdbc:postgresql://localhost:5432/educure_db";
+            String user = "postgres";
+            String password = "password";
+
+            conn = DriverManager.getConnection(url, user, password);
+
+            int productId = 1;
+
             String sql = "SELECT * FROM products WHERE product_id = ?";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -25,6 +36,16 @@ public class SearchProduct {
 
         } catch (Exception e) {
             e.printStackTrace();
+
+        } finally {
+
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
