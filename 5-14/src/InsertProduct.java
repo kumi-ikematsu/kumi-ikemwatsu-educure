@@ -19,20 +19,20 @@ public class InsertProduct {
             // DB接続
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
-            // ★ 要件通りのカラム名に修正
+            // ★ 要件通りのカラム名
             String sql = "INSERT INTO products (product_name, price, stock) VALUES (?, ?, ?)";
 
             pstmt = conn.prepareStatement(sql);
 
-            // 値の設定
-            pstmt.setString(1, "りんご");
-            pstmt.setInt(2, 100);
-            pstmt.setInt(3, 50);
+            // ★ 要件通りのデータに修正
+            pstmt.setString(1, "スマートフォン");
+            pstmt.setInt(2, 80000);
+            pstmt.setInt(3, 30);
 
             // SQL実行
             int result = pstmt.executeUpdate();
 
-            // ★ 更新件数で判定（講師ウケ良い）
+            // 更新件数チェック
             if (result == 1) {
                 System.out.println("商品情報の登録が完了しました。");
             } else {
