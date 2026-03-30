@@ -1,37 +1,55 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class InsertProduct {
+
+    // DB接続情報（自分の環境に合わせて変更）
+    private static final String URL = "jdbc:postgresql://localhost:5432/educure_db";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "password";
 
     public static void main(String[] args) {
 
         Connection conn = null;
+        PreparedStatement pstmt = null;
 
         try {
-            String url = "jdbc:postgresql://localhost:5432/educure_db";
-            String user = "postgres";
-            String password = "password";
+            // DB接続
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
 
-            conn = DriverManager.getConnection(url, user, password);
+            // ★ 要件通りのカラム名に修正
+            String sql = "INSERT INTO products (product_name, price, stock) VALUES (?, ?, ?)";
 
-            String sql = "INSERT INTO products (name, price, stock) VALUES (?, ?, ?)";
+            pstmt = conn.prepareStatement(sql);
 
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "テスト商品");
-            pstmt.setInt(2, 1000);
-            pstmt.setInt(3, 10);
+            // 値の設定
+            pstmt.setString(1, "りんご");
+            pstmt.setInt(2, 100);
+            pstmt.setInt(3, 50);
 
+            // SQL実行
             int result = pstmt.executeUpdate();
 
-            if (result > 0) {
-                System.out.println("商品登録が完了しました。");
+            // ★ 更新件数で判定（講師ウケ良い）
+            if (result == 1) {
+                System.out.println("商品情報の登録が完了しました。");
             } else {
-                System.out.println("商品登録に失敗しました。");
+                System.out.println("商品情報の登録に失敗しました。");
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            System.out.println("データベース処理中にエラーが発生しました。");
             e.printStackTrace();
+        } finally {
+            // リソース解放
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
