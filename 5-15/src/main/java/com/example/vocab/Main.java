@@ -10,26 +10,38 @@ public class Main {
 
         try {
             Connection con = DBUtil.getConnection();
+
             VocabularyService service = new VocabularyService(con);
-            Scanner scanner = new Scanner(System.in);
+            QuizService quizService = new QuizService(service);
+            CSVService csvService = new CSVService(service);
+
+            Scanner sc = new Scanner(System.in);
 
             while (true) {
 
-                System.out.println("1:登録 2:一覧 3:更新 4:削除 0:終了");
-                int choice = scanner.nextInt();
-                scanner.nextLine();
+                System.out.println("==== メニュー ====");
+                System.out.println("1:登録");
+                System.out.println("2:一覧");
+                System.out.println("3:更新");
+                System.out.println("4:削除");
+                System.out.println("5:クイズ");
+                System.out.println("6:インポート");
+                System.out.println("7:エクスポート");
+                System.out.println("0:終了");
+
+                int choice = sc.nextInt();
+                sc.nextLine();
 
                 switch (choice) {
 
                     case 1:
                         System.out.print("単語:");
-                        String word = scanner.nextLine();
-
+                        String word = sc.nextLine();
                         System.out.print("意味:");
-                        String meaning = scanner.nextLine();
+                        String meaning = sc.nextLine();
 
                         if (service.add(word, meaning)) {
-                            System.out.println("登録成功");
+                            System.out.println("登録完了");
                         }
                         break;
 
@@ -42,13 +54,12 @@ public class Main {
 
                     case 3:
                         System.out.print("単語:");
-                        String w1 = scanner.nextLine();
-
+                        String w = sc.nextLine();
                         System.out.print("新しい意味:");
-                        String m1 = scanner.nextLine();
+                        String m = sc.nextLine();
 
-                        if (service.update(w1, m1)) {
-                            System.out.println("更新成功");
+                        if (service.update(w, m)) {
+                            System.out.println("更新完了");
                         } else {
                             System.out.println("該当なし");
                         }
@@ -56,13 +67,27 @@ public class Main {
 
                     case 4:
                         System.out.print("単語:");
-                        String w2 = scanner.nextLine();
+                        String d = sc.nextLine();
 
-                        if (service.delete(w2)) {
-                            System.out.println("削除成功");
+                        if (service.delete(d)) {
+                            System.out.println("削除完了");
                         } else {
                             System.out.println("該当なし");
                         }
+                        break;
+
+                    case 5:
+                        quizService.startQuiz();
+                        break;
+
+                    case 6:
+                        csvService.importCSV("input.csv");
+                        System.out.println("インポート完了");
+                        break;
+
+                    case 7:
+                        csvService.exportCSV("output.csv");
+                        System.out.println("エクスポート完了");
                         break;
 
                     case 0:
@@ -72,7 +97,7 @@ public class Main {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("エラーが発生しました：" + e.getMessage());
         }
     }
 }
