@@ -6,17 +6,18 @@ import java.sql.SQLException;
 
 public class DBUtil {
 
-    private static final String URL =
-            System.getenv().getOrDefault("VOCAB_DB_URL",
-                    "jdbc:postgresql://localhost:5432/vocabulary_db");
-
-    private static final String USER =
-            System.getenv().getOrDefault("VOCAB_DB_USER", "postgres");
-
-    private static final String PASSWORD =
-            System.getenv().getOrDefault("VOCAB_DB_PASSWORD", "postgres");
+    private static Connection connection;
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+
+        if (connection == null || connection.isClosed()) {
+            connection = DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/vocabulary_db",
+                    "postgres",
+                    "postgres"
+            );
+        }
+
+        return connection;
     }
 }
