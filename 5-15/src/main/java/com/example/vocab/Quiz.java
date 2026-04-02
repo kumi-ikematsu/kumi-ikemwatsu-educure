@@ -15,6 +15,11 @@ public class Quiz {
         this.totalQuestions = 0;
     }
 
+    public void reset() {
+        this.score = 0;
+        this.totalQuestions = 0;
+    }
+
     public boolean checkAnswer(Word word, String answer) {
         totalQuestions++;
         if (answer.equalsIgnoreCase(word.getJapanese())) {
