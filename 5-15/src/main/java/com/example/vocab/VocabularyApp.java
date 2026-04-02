@@ -73,6 +73,8 @@ public class VocabularyApp {
             return;
         }
 
+        quiz.reset();
+
         System.out.println("=== クイズを開始します ===");
         int count = wordManager.getWordCount();
 
