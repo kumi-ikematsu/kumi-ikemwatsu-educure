@@ -1,5 +1,6 @@
 package com.example.vocab;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 
@@ -29,7 +30,7 @@ public class Quiz {
         return false;
     }
 
-    public Word getRandomWord() {
+    public Word getRandomWord() throws SQLException {
         List<Word> list = wordManager.getWords();
         if (list.isEmpty()) return null;
         return list.get(new Random().nextInt(list.size()));
