@@ -3,6 +3,7 @@ package com.example.vocab;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBManager {
 
@@ -11,25 +12,25 @@ public class DBManager {
     private static final String USER = "postgres";
     private static final String PASSWORD = "postgres";
 
-    public DBManager() {
-        initializeDatabase();
+    public DBManager() throws SQLException {
+        connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        initializeTable();
     }
 
-    private void initializeDatabase() {
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            System.err.println("DB接続エラー: " + e.getMessage());
+    private void initializeTable() throws SQLException {
+        String sql = "CREATE TABLE IF NOT EXISTS words ("
+                + "id SERIAL PRIMARY KEY, "
+                + "english VARCHAR(100) NOT NULL, "
+                + "japanese VARCHAR(100) NOT NULL"
+                + ")";
+        try (Statement st = connection.createStatement()) {
+            st.execute(sql);
         }
     }
 
-    public Connection getConnection() {
-        try {
-            if (connection == null || connection.isClosed()) {
-                initializeDatabase();
-            }
-        } catch (SQLException e) {
-            System.err.println("DB接続確認エラー: " + e.getMessage());
+    public Connection getConnection() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
         }
         return connection;
     }
