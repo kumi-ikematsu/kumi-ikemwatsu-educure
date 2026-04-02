@@ -1,5 +1,7 @@
 package com.example.vocab;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -11,7 +13,7 @@ public class VocabularyApp {
     private Scanner scanner;
     private DBManager dbManager;
 
-    public VocabularyApp() {
+    public VocabularyApp() throws SQLException {
         this.dbManager = new DBManager();
         this.wordManager = new WordManager(dbManager);
         this.quiz = new Quiz(wordManager);
@@ -34,24 +36,30 @@ public class VocabularyApp {
 
             String input = scanner.nextLine().trim();
 
-            switch (input) {
-                case "1": registerWord(); break;
-                case "2": startQuiz(); break;
-                case "3": importWords(); break;
-                case "4": exportWords(); break;
-                case "5": deleteWord(); break;
-                case "6": updateWord(); break;
-                case "7":
-                    cleanup();
-                    System.out.println("終了します。");
-                    return;
-                default:
-                    System.out.println("1〜7の数字を入力してください。");
+            try {
+                switch (input) {
+                    case "1": registerWord(); break;
+                    case "2": startQuiz(); break;
+                    case "3": importWords(); break;
+                    case "4": exportWords(); break;
+                    case "5": deleteWord(); break;
+                    case "6": updateWord(); break;
+                    case "7":
+                        cleanup();
+                        System.out.println("終了します。");
+                        return;
+                    default:
+                        System.out.println("1〜7の数字を入力してください。");
+                }
+            } catch (SQLException e) {
+                System.err.println("DBエラーが発生しました: " + e.getMessage());
+            } catch (IOException e) {
+                System.err.println("ファイルエラーが発生しました: " + e.getMessage());
             }
         }
     }
 
-    private void registerWord() {
+    private void registerWord() throws SQLException {
         System.out.print("英単語を入力してください: ");
         String english = scanner.nextLine().trim();
         System.out.print("日本語訳を入力してください: ");
@@ -62,19 +70,17 @@ public class VocabularyApp {
             return;
         }
 
-        Word word = new Word(english, japanese);
-        wordManager.addWord(word);
+        wordManager.addWord(new Word(english, japanese));
         System.out.println("単語を登録しました。");
     }
 
-    private void startQuiz() {
+    private void startQuiz() throws SQLException {
         if (wordManager.getWordCount() == 0) {
             System.out.println("単語が登録されていません。");
             return;
         }
 
         quiz.reset();
-
         System.out.println("=== クイズを開始します ===");
         int count = wordManager.getWordCount();
 
@@ -95,27 +101,32 @@ public class VocabularyApp {
         System.out.println(quiz.getTotalQuestions() + "問中" + quiz.getScore() + "問正解でした！");
     }
 
-    private void importWords() {
+    private void importWords() throws SQLException, IOException {
         System.out.print("CSVファイル名を入力してください: ");
         String filename = scanner.nextLine().trim();
-        fileHandler.importFromCSV(filename, wordManager);
+        List<Word> words = fileHandler.importFromCSV(filename);
+        for (Word w : words) {
+            wordManager.addWord(w);
+        }
+        System.out.println(words.size() + "個の単語を読み込みました。");
     }
 
-    private void exportWords() {
+    private void exportWords() throws SQLException, IOException {
         System.out.print("CSVファイル名を入力してください: ");
         String filename = scanner.nextLine().trim();
         List<Word> words = wordManager.getWords();
-        fileHandler.exportToCSV(words, filename);
+        int count = fileHandler.exportToCSV(words, filename);
+        System.out.println(count + "個の単語を保存しました。");
     }
 
-    private void deleteWord() {
+    private void deleteWord() throws SQLException {
         System.out.print("削除する英単語を入力してください: ");
         String english = scanner.nextLine().trim();
         wordManager.deleteWord(english);
         System.out.println("単語を削除しました。");
     }
 
-    private void updateWord() {
+    private void updateWord() throws SQLException {
         System.out.print("更新する英単語を入力してください: ");
         String english = scanner.nextLine().trim();
         System.out.print("新しい日本語訳を入力してください: ");
@@ -130,7 +141,11 @@ public class VocabularyApp {
     }
 
     public static void main(String[] args) {
-        VocabularyApp app = new VocabularyApp();
-        app.start();
+        try {
+            VocabularyApp app = new VocabularyApp();
+            app.start();
+        } catch (SQLException e) {
+            System.err.println("DB接続に失敗しました。アプリを終了します: " + e.getMessage());
+        }
     }
 }
