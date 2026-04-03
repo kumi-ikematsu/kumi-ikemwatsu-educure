@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>テックカンファレンス2023</title>
+</head>
+<body>
+
+  <header>
+    <h1>テックカンファレンス2023</h1>
+    <nav>
+      <ul>
+        <li><a href="#home">ホーム</a></li>
+        <li><a href="#speaker">スピーカー</a></li>
+        <li><a href="#register">登録</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <h2>イベント概要</h2>
+      <p>このカンファレンスでは最新の技術トレンドを紹介します。</p>
+      <aside>
+        <p>参加者にはオリジナルのノベルティが用意されています。</p>
+      </aside>
+    </article>
+
+    <table border="1">
+      <tr>
+        <th>セッション</th>
+        <th>スピーカー</th>
+        <th>時間</th>
+      </tr>
+      <tr>
+        <td rowspan="2">基調講演</td>
+        <td>Dr. Tech</td>
+        <td>10:00〜11:00</td>
+      </tr>
+      <tr>
+        <td>Dr. Mac</td>
+        <td>11:30〜12:30</td>
+      </tr>
+      <tr>
+        <td>パネルディスカッション</td>
+        <td>Dr. Tech</td>
+        <td>13:30〜14:30</td>
+      </tr>
+    </table>
+
+    <form action="/submit" method="POST">
+      <p>名前：<input type="text" name="name"></p>
+      <p>メールアドレス：<input type="email" name="email"></p>
+      <p>性別：
+        <input type="radio" name="gender" value="male">男性
+        <input type="radio" name="gender" value="female">女性
+      </p>
+      <p>興味のある分野：
+        <input type="checkbox" name="field" value="tech">技術
+        <input type="checkbox" name="field" value="art">芸術
+        <input type="checkbox" name="field" value="science">科学
+      </p>
+      <p>国：
+        <select name="country">
+          <option value="japan">日本</option>
+          <option value="america">アメリカ</option>
+          <option value="uk">イギリス</option>
+        </select>
+      </p>
+      <p>コメント：<br>
+        <textarea name="comment" rows="4" cols="53"></textarea>
+      </p>
+      <input type="submit" value="送信">
+    </form>
+
+  </main>
+
+  <footer>
+    <p>© 2023 テックカンファレンス. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
