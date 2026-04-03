@@ -1,0 +1,23 @@
+/* 問題1: style1.css */
+
+body {
+  font-size: 16px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+.important {
+  font-weight: bold;
+  color: #ff0000;
+}
+
+p {
+  line-height: 1.5;
+}
