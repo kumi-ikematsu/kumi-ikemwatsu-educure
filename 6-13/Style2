@@ -1,0 +1,18 @@
+/* 問題2: style2.css */
+
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.menu a {
+    color: #444;
+    text-decoration: none;
+}
+
+.features {
+    list-style-type: circle;
+}
