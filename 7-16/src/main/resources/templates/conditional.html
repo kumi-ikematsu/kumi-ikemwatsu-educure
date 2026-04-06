@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Conditional Example</title>
+</head>
+<body>
+    <p th:if="${isLoggedIn}">Welcome back!</p>
+    <p th:unless="${isLoggedIn}">Please log in.</p>
+</body>
+</html>
