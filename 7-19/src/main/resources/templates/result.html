@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculation Result</title>
+</head>
+<body>
+    <h1>Calculation Result</h1>
+    <p th:if="${error}" th:text="${error}"></p>
+    <p th:unless="${error}">Result: <span th:text="${result}"></span></p>
+    <br>
+    <a href="/calculator">Go back to the calculator</a>
+</body>
+</html>
