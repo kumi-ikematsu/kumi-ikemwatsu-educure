@@ -6,9 +6,9 @@
 </head>
 <body>
     <h1>User Info</h1>
-    <p>Name: <span th:text="${name}"></span></p>
-    <p>Role: <span th:text="${role}"></span></p>
-    <p th:if="${status == 'ACTIVE'}">User is active</p>
+    <p>Name: <span th:text="${user['name']}"></span></p>
+    <p>Role: <span th:text="${user['role']}"></span></p>
+    <p th:if="${user['status'] == 'ACTIVE'}">User is active</p>
 
     <h2>Products</h2>
     <table border="1">
