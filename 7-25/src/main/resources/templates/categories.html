@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>カテゴリ一覧</title>
+</head>
+<body>
+<h1>カテゴリ一覧</h1>
+<a href="/categories/create">新規カテゴリ作成</a>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>カテゴリ名</th>
+        <th>作成日時</th>
+        <th>操作</th>
+    </tr>
+    <tr th:each="cat : ${categories}">
+        <td th:text="${cat.id}"></td>
+        <td th:text="${cat.name}"></td>
+        <td th:text="${cat.createdAt}"></td>
+        <td>
+            <a th:href="@{/categories/edit/{id}(id=${cat.id})}">編集</a>
+            <form th:action="@{/categories/delete/{id}(id=${cat.id})}" method="post"
+                  onsubmit="return confirm('削除しますか？')" style="display:inline">
+                <button type="submit">削除</button>
+            </form>
+        </td>
+    </tr>
+</table>
+<br>
+<a href="/books">書籍一覧へ戻る</a>
+</body>
+</html>
