@@ -2,6 +2,7 @@ package jp.educure.bookmanagement.controller;
 
 import jp.educure.bookmanagement.entity.Book;
 import jp.educure.bookmanagement.mapper.BookMapper;
+import jp.educure.bookmanagement.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +15,33 @@ public class BookController {
     @Autowired
     private BookMapper bookMapper;
 
+    @Autowired
+    private BookService bookService;
+
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("books", bookMapper.findAll());
+    public String index(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) Integer minPrice,
+            @RequestParam(required = false) Integer maxPrice,
+            Model model) {
+
+        boolean hasSearch = (title != null && !title.isEmpty())
+                || (author != null && !author.isEmpty())
+                || minPrice != null
+                || maxPrice != null;
+
+        if (hasSearch) {
+            model.addAttribute("books", bookService.search(title, author, minPrice, maxPrice));
+        } else {
+            model.addAttribute("books", bookMapper.findAll());
+        }
+
+        model.addAttribute("title", title);
+        model.addAttribute("author", author);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+
         return "index";
     }
 
