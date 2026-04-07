@@ -1,6 +1,7 @@
 package jp.educure.bookmanagement.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Book {
     private int id;
@@ -8,6 +9,8 @@ public class Book {
     private String author;
     private int price;
     private LocalDateTime createdAt;
+    private List<Category> categories;
+    private List<Integer> categoryIds;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -23,4 +26,10 @@ public class Book {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public List<Category> getCategories() { return categories; }
+    public void setCategories(List<Category> categories) { this.categories = categories; }
+
+    public List<Integer> getCategoryIds() { return categoryIds; }
+    public void setCategoryIds(List<Integer> categoryIds) { this.categoryIds = categoryIds; }
 }
