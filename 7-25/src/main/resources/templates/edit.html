@@ -10,6 +10,13 @@
     タイトル：<input type="text" name="title" th:value="${book.title}"><br>
     著者：<input type="text" name="author" th:value="${book.author}"><br>
     価格：<input type="number" name="price" th:value="${book.price}"><br>
+    カテゴリ：<br>
+    <span th:each="cat : ${allCategories}">
+        <input type="checkbox" name="categoryIds" th:value="${cat.id}"
+               th:id="'cat_' + ${cat.id}"
+               th:checked="${selectedCategoryIds.contains(cat.id)}">
+        <label th:for="'cat_' + ${cat.id}" th:text="${cat.name}"></label><br>
+    </span>
     <button type="submit">更新</button>
     <a href="/books">戻る</a>
 </form>
