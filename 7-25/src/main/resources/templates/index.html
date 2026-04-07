@@ -6,7 +6,20 @@
 </head>
 <body>
 <h1>書籍一覧</h1>
+
+<h2>検索条件</h2>
+<form action="/books" method="get">
+    タイトル：<input type="text" name="title" th:value="${title}"><br>
+    著者：<input type="text" name="author" th:value="${author}"><br>
+    価格：<input type="number" name="minPrice" th:value="${minPrice}">円 〜
+          <input type="number" name="maxPrice" th:value="${maxPrice}">円<br>
+    <button type="submit">検索</button>
+    <a href="/books">クリア</a>
+</form>
+
+<br>
 <a href="/books/create">新規作成</a>
+
 <table border="1">
     <tr>
         <th>ID</th>
@@ -25,10 +38,13 @@
         <td>
             <a th:href="@{/books/edit/{id}(id=${book.id})}">編集</a>
             <form th:action="@{/books/delete/{id}(id=${book.id})}" method="post"
-                  onsubmit="return confirm('削除しますか？')">
+                  onsubmit="return confirm('削除しますか？')" style="display:inline">
                 <button type="submit">削除</button>
             </form>
         </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(books)}">
+        <td colspan="6">該当なし</td>
     </tr>
 </table>
 </body>
