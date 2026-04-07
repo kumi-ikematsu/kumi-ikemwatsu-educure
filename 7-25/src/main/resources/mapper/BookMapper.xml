@@ -31,4 +31,24 @@
         DELETE FROM books WHERE id = #{id}
     </delete>
 
+    <select id="search" parameterType="map" resultType="jp.educure.bookmanagement.entity.Book">
+        SELECT id, title, author, price, created_at AS createdAt
+        FROM books
+        <where>
+            <if test="title != null and title != ''">
+                AND title LIKE '%' || #{title} || '%'
+            </if>
+            <if test="author != null and author != ''">
+                AND author = #{author}
+            </if>
+            <if test="minPrice != null">
+                AND price &gt;= #{minPrice}
+            </if>
+            <if test="maxPrice != null">
+                AND price &lt;= #{maxPrice}
+            </if>
+        </where>
+        ORDER BY id
+    </select>
+
 </mapper>
