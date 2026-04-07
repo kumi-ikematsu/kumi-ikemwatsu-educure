@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新規カテゴリ作成</title>
+</head>
+<body>
+<h1>新規カテゴリ作成</h1>
+<form action="/categories/create" method="post">
+    カテゴリ名：<input type="text" name="name"><br>
+    <button type="submit">作成</button>
+    <a href="/categories">戻る</a>
+</form>
+</body>
+</html>
