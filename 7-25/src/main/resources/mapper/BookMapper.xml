@@ -4,19 +4,38 @@
 
 <mapper namespace="jp.educure.bookmanagement.mapper.BookMapper">
 
-    <select id="findAll" resultType="jp.educure.bookmanagement.entity.Book">
-        SELECT id, title, author, price, created_at AS createdAt
-        FROM books
-        ORDER BY id
+    <resultMap id="bookResultMap" type="jp.educure.bookmanagement.entity.Book">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="author" column="author"/>
+        <result property="price" column="price"/>
+        <result property="createdAt" column="created_at"/>
+        <collection property="categories" ofType="jp.educure.bookmanagement.entity.Category">
+            <id property="id" column="cat_id"/>
+            <result property="name" column="cat_name"/>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="bookResultMap">
+        SELECT b.id, b.title, b.author, b.price, b.created_at,
+               c.id AS cat_id, c.name AS cat_name
+        FROM books b
+        LEFT JOIN book_categories bc ON b.id = bc.book_id
+        LEFT JOIN categories c ON bc.category_id = c.id
+        ORDER BY b.id
     </select>
 
-    <select id="findById" parameterType="int" resultType="jp.educure.bookmanagement.entity.Book">
-        SELECT id, title, author, price, created_at AS createdAt
-        FROM books
-        WHERE id = #{id}
+    <select id="findById" parameterType="int" resultMap="bookResultMap">
+        SELECT b.id, b.title, b.author, b.price, b.created_at,
+               c.id AS cat_id, c.name AS cat_name
+        FROM books b
+        LEFT JOIN book_categories bc ON b.id = bc.book_id
+        LEFT JOIN categories c ON bc.category_id = c.id
+        WHERE b.id = #{id}
     </select>
 
-    <insert id="insert" parameterType="jp.educure.bookmanagement.entity.Book">
+    <insert id="insert" parameterType="jp.educure.bookmanagement.entity.Book"
+            useGeneratedKeys="true" keyProperty="id">
         INSERT INTO books (title, author, price, created_at)
         VALUES (#{title}, #{author}, #{price}, NOW())
     </insert>
@@ -31,24 +50,40 @@
         DELETE FROM books WHERE id = #{id}
     </delete>
 
-    <select id="search" parameterType="map" resultType="jp.educure.bookmanagement.entity.Book">
-        SELECT id, title, author, price, created_at AS createdAt
-        FROM books
+    <delete id="deleteBookCategories" parameterType="int">
+        DELETE FROM book_categories WHERE book_id = #{bookId}
+    </delete>
+
+    <insert id="insertBookCategory" parameterType="map">
+        INSERT INTO book_categories (book_id, category_id)
+        VALUES (#{bookId}, #{categoryId})
+    </insert>
+
+    <select id="findCategoryIdsByBookId" parameterType="int" resultType="int">
+        SELECT category_id FROM book_categories WHERE book_id = #{bookId}
+    </select>
+
+    <select id="search" parameterType="map" resultMap="bookResultMap">
+        SELECT b.id, b.title, b.author, b.price, b.created_at,
+               c.id AS cat_id, c.name AS cat_name
+        FROM books b
+        LEFT JOIN book_categories bc ON b.id = bc.book_id
+        LEFT JOIN categories c ON bc.category_id = c.id
         <where>
             <if test="title != null and title != ''">
-                AND title LIKE '%' || #{title} || '%'
+                AND b.title LIKE '%' || #{title} || '%'
             </if>
             <if test="author != null and author != ''">
-                AND author = #{author}
+                AND b.author = #{author}
             </if>
             <if test="minPrice != null">
-                AND price &gt;= #{minPrice}
+                AND b.price &gt;= #{minPrice}
             </if>
             <if test="maxPrice != null">
-                AND price &lt;= #{maxPrice}
+                AND b.price &lt;= #{maxPrice}
             </if>
         </where>
-        ORDER BY id
+        ORDER BY b.id
     </select>
 
 </mapper>
