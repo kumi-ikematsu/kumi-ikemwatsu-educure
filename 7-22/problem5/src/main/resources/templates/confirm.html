@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>キャンペーン確認</title>
+</head>
+<body>
+    <h1>キャンペーン確認</h1>
+    <ul>
+        <li>キャンペーン名：<span th:text="${form.name}"></span></li>
+        <li>割引種別：<span th:text="${form.type == 'fixed'} ? '定額' : '定率'"></span></li>
+        <li>割引値：<span th:text="${form.value}"></span></li>
+        <li>開始日：<span th:text="${form.startDate}"></span></li>
+        <li>終了日：<span th:text="${form.endDate}"></span></li>
+    </ul>
+    <a href="/input"><button>戻る</button></a>
+</body>
+</html>
