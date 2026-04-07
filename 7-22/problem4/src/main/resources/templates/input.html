@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>会議室予約フォーム</title>
+</head>
+<body>
+    <h1>会議室予約フォーム</h1>
+    <form th:action="@{/confirm}" th:object="${meetingRoomForm}" method="post">
+
+        <label>会議室名：</label>
+        <select th:field="*{roomName}">
+            <option value="">選択してください</option>
+            <option value="小会議室">小会議室</option>
+            <option value="大会議室">大会議室</option>
+        </select>
+        <span th:if="${#fields.hasErrors('roomName')}" th:errors="*{roomName}"></span>
+        <br>
+
+        <label>利用開始日時：</label>
+        <input type="datetime-local" th:field="*{startDateTime}">
+        <span th:if="${#fields.hasErrors('startDateTime')}" th:errors="*{startDateTime}"></span>
+        <br>
+
+        <label>利用終了日時：</label>
+        <input type="datetime-local" th:field="*{endDateTime}">
+        <span th:if="${#fields.hasErrors('endDateTime')}" th:errors="*{endDateTime}"></span>
+        <br>
+
+        <label>利用人数：</label>
+        <input type="text" th:field="*{peopleCount}">
+        <span th:if="${#fields.hasErrors('peopleCount')}" th:errors="*{peopleCount}"></span>
+        <br><br>
+
+        <button type="submit">確認</button>
+    </form>
+</body>
+</html>
