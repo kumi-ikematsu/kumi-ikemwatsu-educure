@@ -10,6 +10,11 @@
     タイトル：<input type="text" name="title"><br>
     著者：<input type="text" name="author"><br>
     価格：<input type="number" name="price"><br>
+    カテゴリ：<br>
+    <span th:each="cat : ${allCategories}">
+        <input type="checkbox" name="categoryIds" th:value="${cat.id}" th:id="'cat_' + ${cat.id}">
+        <label th:for="'cat_' + ${cat.id}" th:text="${cat.name}"></label><br>
+    </span>
     <button type="submit">登録</button>
     <a href="/books">戻る</a>
 </form>
