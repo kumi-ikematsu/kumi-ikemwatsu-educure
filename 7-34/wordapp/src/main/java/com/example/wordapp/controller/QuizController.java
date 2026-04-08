@@ -1,60 +1,66 @@
+package com.example.wordapp.controller;
+
+import com.example.wordapp.model.Word;
+import com.example.wordapp.service.QuizService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 @Controller
 public class QuizController {
 
-    // TODO: QuizServiceをDIしてください
-    ____________ QuizService quizService;
+    @Autowired
+    QuizService quizService;
 
-    // TODO: クイズ画面を表示するGETメソッドを実装してください
-    // パス：/quiz
     @GetMapping("/quiz")
     public String showQuiz(Model model, HttpSession session) {
-        Word word = ____________;
-        model.addAttribute("____________", word);
+        Word word = quizService.getRandomWord();
+        model.addAttribute("word", word);
 
-        if (session.getAttribute("correctCount") == ____________) {
-            session.setAttribute("correctCount", ____________);
+        if (session.getAttribute("correctCount") == null) {
+            session.setAttribute("correctCount", 0);
         }
         if (session.getAttribute("totalCount") == null) {
-            session.setAttribute("____________", 0);
+            session.setAttribute("totalCount", 0);
         }
 
-        return "____________";
+        return "quiz";
     }
 
-    // TODO: 回答処理を行うPOSTメソッドを実装してください
-    // パス：/quiz/answer
     @PostMapping("/quiz/answer")
     public String checkAnswer(
             @RequestParam int wordId,
-            @RequestParam ____________ answer,
+            @RequestParam String answer,
             HttpSession session,
             Model model) {
 
-        boolean isCorrect = ____________;
+        boolean isCorrect = quizService.checkAnswer(wordId, answer);
 
-        int total = (int) session.getAttribute("____________") + 1;
-        session.setAttribute("totalCount", ____________);
+        int total = (int) session.getAttribute("totalCount") + 1;
+        session.setAttribute("totalCount", total);
 
-        if (____________) {
-            int correct = (int) session.getAttribute("____________") + 1;
-            session.setAttribute("____________", correct);
+        if (isCorrect) {
+            int correct = (int) session.getAttribute("correctCount") + 1;
+            session.setAttribute("correctCount", correct);
         }
 
-        model.addAttribute("____________", isCorrect);
+        model.addAttribute("isCorrect", isCorrect);
         model.addAttribute("totalCount", total);
         model.addAttribute("correctCount", session.getAttribute("correctCount"));
 
-        // TODO: wordIdで単語を取得し、japaneseをModelに"correctAnswer"として追加
-        ____________
+        Word word = quizService.getWordById(wordId);
+        model.addAttribute("correctAnswer", word.getJapanese());
 
-        return "____________";
+        return "quiz";
     }
 
-    // TODO: スコアをリセットするGETメソッドを実装してください
-    // パス：/quiz/reset / 処理：セッションを無効化して /quiz にリダイレクト
     @GetMapping("/quiz/reset")
-    public String resetQuiz(____________ session) {
-        ____________;
+    public String resetQuiz(HttpSession session) {
+        session.invalidate();
         return "redirect:/quiz";
     }
 }
