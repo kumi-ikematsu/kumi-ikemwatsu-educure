@@ -1,9 +1,14 @@
 public class Word {
 
-    // TODO: 以下のフィールドを追加してください
-    // ・id（整数型）
-    // ・english（文字列型）
-    // ・japanese（文字列型）
+    private int id;
 
-    // TODO: ゲッター・セッターを追加してください（Lombokの@Dataアノテーションも可）
+    // TODO: @NotBlank を追加してください（メッセージ："英単語を入力してください"）
+    ____________(message = "____________")
+    private String english;
+
+    // TODO: @NotBlank を追加してください（メッセージ："日本語訳を入力してください"）
+    ____________(message = "____________")
+    private String japanese;
+
+    // ゲッター・セッター省略
 }
