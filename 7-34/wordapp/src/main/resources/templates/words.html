@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>単語一覧</title>
+</head>
+<body>
+    <h1>単語一覧</h1>
+    <a href="/register">新規登録</a>
+
+    <table border="1">
+        <tr>
+            <th>ID</th><th>英単語</th><th>日本語訳</th><th>操作</th>
+        </tr>
+        <!-- TODO: th:each を使って words を繰り返し表示してください -->
+        <tr th:each="____________">
+            <!-- TODO: id, english, japanese を th:text で表示してください -->
+            <td th:text="____________"></td>
+            <td th:text="____________"></td>
+            <td th:text="____________"></td>
+            <td>
+                <!-- TODO: 編集リンク（/words/edit/{id}）を追加してください -->
+                <a th:href="____________">編集</a>
+                <!-- TODO: 削除フォーム（/words/delete/{id} へのPOST）を追加してください -->
+                <form th:action="____________" method="post">
+                    <button type="submit">削除</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
