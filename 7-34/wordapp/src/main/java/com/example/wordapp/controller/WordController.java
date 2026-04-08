@@ -1,23 +1,27 @@
-@Controller
-public class WordController {
+// TODO: @Valid と BindingResult を追加し、エラー時は register.html を返してください
+@PostMapping("/register")
+public String registerWord(
+        ____________ @ModelAttribute Word word,
+        ____________ bindingResult) {
 
-    // TODO: WordServiceをDIしてください
-    ____________ WordService wordService;
-
-    // TODO: 登録フォームを表示するGETメソッドを実装してください
-    // パス：/register
-    @____________("/register")
-    public String showRegisterForm(Model model) {
-        model.addAttribute("word", new Word());
-        return "____________"; // テンプレート名
+    if (____________.____________()) {
+        return "____________";
     }
 
-    // TODO: 登録処理を行うPOSTメソッドを実装してください
-    // パス：/register
-    // 処理：wordServiceのregisterWordを呼び出し、登録後に /words へリダイレクト
-    @____________("/register")
-    public String registerWord(____________ Word word) {
-        ____________;
-        return "____________:____________"; // リダイレクト先
+    wordService.registerWord(word);
+    return "redirect:/words";
+}
+
+// TODO: 同様に @Valid と BindingResult を追加し、エラー時は edit.html を返してください
+@PostMapping("/words/update")
+public String updateWord(
+        ____________ @ModelAttribute Word word,
+        ____________ bindingResult) {
+
+    if (____________) {
+        return "____________";
     }
+
+    wordService.updateWord(word);
+    return "redirect:/words";
 }
