@@ -1,0 +1,11 @@
+<mapper namespace="com.example.wordapp.mapper.WordMapper">
+
+    <!-- TODO: INSERT文を記述してください -->
+    <!-- テーブル名：words -->
+    <!-- カラム：english, japanese（idはSEQUENCEで自動採番） -->
+    <insert id="____________">
+        INSERT INTO ____________ (____________, ____________)
+        VALUES (____________, ____________)
+    </insert>
+
+</mapper>
