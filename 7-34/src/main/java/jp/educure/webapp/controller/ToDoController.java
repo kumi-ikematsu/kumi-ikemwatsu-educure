@@ -1,77 +1,79 @@
 package jp.educure.webapp.controller;
 
-import org.springframework.beans.BeanUtils;
+import jp.educure.webapp.form.ToDoForm;
+import jp.educure.webapp.service.ToDoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import jakarta.validation.Valid;
-import jp.educure.webapp.entity.ToDo;
-import jp.educure.webapp.form.ToDoForm;
-import jp.educure.webapp.service.ToDoService;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/todo")
 public class ToDoController {
 
     @Autowired
     private ToDoService toDoService;
 
-    @GetMapping("/todo")
-    public String index(Model model) {
+    // 一覧表示
+    @GetMapping("/list")
+    public String list(Model model) {
         model.addAttribute("todoList", toDoService.findAll());
-        return "todo/index";
+        return "todo/list";
     }
 
-    @GetMapping("/todo/create")
-    public String createForm(@ModelAttribute ToDoForm form) {
+    // 新規登録画面表示
+    @GetMapping("/create")
+    public String createForm(Model model) {
+        model.addAttribute("toDoForm", new ToDoForm());
         return "todo/form";
     }
 
-    @PostMapping("/todo/create")
-    public String create(@Valid @ModelAttribute ToDoForm form, BindingResult bindingResult, Model model) {
+    // 新規登録処理
+    @PostMapping("/create")
+    public String create(
+            @Valid @ModelAttribute ToDoForm toDoForm,
+            BindingResult bindingResult,
+            Model model) {
+
+        // バリデーションエラーがあった場合はフォーム入力画面を表示
         if (bindingResult.hasErrors()) {
             return "todo/form";
         }
 
-        ToDo todo = new ToDo();
-        BeanUtils.copyProperties(form, todo);
-        toDoService.insert(todo);
-
-        return "redirect:/todo";
+        toDoService.save(toDoForm);
+        return "redirect:/todo/list";
     }
 
-    @GetMapping("/todo/edit/{id}")
-    public String edit(@PathVariable Integer id, Model model) {
-        ToDo todo = toDoService.findById(id);
-
-        ToDoForm form = new ToDoForm();
-        BeanUtils.copyProperties(todo, form);
-
-        model.addAttribute("toDoForm", form);
+    // 編集画面表示
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("toDoForm", toDoService.findById(id));
         return "todo/form";
     }
 
-    @PostMapping("/todo/update")
-    public String update(@Valid @ModelAttribute ToDoForm form, BindingResult bindingResult, Model model) {
+    // 更新処理
+    @PostMapping("/update/{id}")
+    public String update(
+            @PathVariable Long id,
+            @Valid @ModelAttribute ToDoForm toDoForm,
+            BindingResult bindingResult,
+            Model model) {
+
+        // バリデーションエラーがあった場合はフォーム入力画面を表示
         if (bindingResult.hasErrors()) {
             return "todo/form";
         }
 
-        ToDo todo = new ToDo();
-        BeanUtils.copyProperties(form, todo);
-        toDoService.update(todo);
-
-        return "redirect:/todo";
+        toDoService.update(id, toDoForm);
+        return "redirect:/todo/list";
     }
 
-    @PostMapping("/todo/delete")
-    public String delete(@ModelAttribute ToDoForm form) {
-        toDoService.delete(form.getId());
-        return "redirect:/todo";
+    // 削除処理
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
+        toDoService.delete(id);
+        return "redirect:/todo/list";
     }
 }
