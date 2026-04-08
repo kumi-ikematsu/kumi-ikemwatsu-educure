@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>クイズ</title>
+</head>
+<body>
+    <h1>英単語クイズ</h1>
+
+    <!-- TODO: セッションの correctCount と totalCount を表示してください -->
+    <p>正解数：<span th:text="____________"></span> / <span th:text="____________"></span></p>
+
+    <!-- TODO: isCorrect が存在する場合のみ表示するブロックを作成してください -->
+    <div th:if="____________">
+        <!-- TODO: isCorrect が true なら"正解！"を表示してください -->
+        <p th:if="____________">✅ 正解！</p>
+        <!-- TODO: isCorrect が false なら"不正解"と正解を表示してください -->
+        <div th:unless="____________">
+            <p>❌ 不正解</p>
+            <p>正解：<span th:text="____________"></span></p>
+        </div>
+    </div>
+
+    <!-- TODO: word が存在する場合のみ表示するブロックを作成してください -->
+    <div th:if="____________">
+        <h2>次の英単語の日本語訳は？</h2>
+        <!-- TODO: word.english を表示してください -->
+        <h3 th:text="____________"></h3>
+
+        <!-- TODO: /quiz/answer へPOSTするフォームを作成してください -->
+        <form th:action="____________" method="post">
+            <input type="hidden" name="wordId" th:value="____________" />
+            <input type="text" name="answer" placeholder="日本語訳を入力" />
+            <button type="submit">回答する</button>
+        </form>
+    </div>
+
+    <div th:if="${isCorrect != null}">
+        <a href="/quiz">次の問題へ</a>
+    </div>
+
+    <a href="/quiz/reset">スコアをリセット</a>
+    <a href="/">ホームへ</a>
+</body>
+</html>
