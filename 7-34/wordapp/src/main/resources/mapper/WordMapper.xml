@@ -1,11 +1,22 @@
-<mapper namespace="com.example.wordapp.mapper.WordMapper">
+<!-- TODO: 全件取得のSELECT文を記述してください -->
+<select id="____________" resultType="____________">
+    SELECT ____________ FROM words
+</select>
 
-    <!-- TODO: INSERT文を記述してください -->
-    <!-- テーブル名：words -->
-    <!-- カラム：english, japanese（idはSEQUENCEで自動採番） -->
-    <insert id="____________">
-        INSERT INTO ____________ (____________, ____________)
-        VALUES (____________, ____________)
-    </insert>
+<!-- TODO: IDで1件取得するSELECT文を記述してください -->
+<select id="____________" resultType="____________">
+    SELECT * FROM words WHERE ____________ = ____________
+</select>
 
-</mapper>
+<!-- TODO: UPDATE文を記述してください（更新対象：english, japanese / 条件：id） -->
+<update id="____________">
+    UPDATE words
+    SET ____________ = ____________,
+        ____________ = ____________
+    WHERE ____________ = ____________
+</update>
+
+<!-- TODO: DELETE文を記述してください -->
+<delete id="____________">
+    DELETE FROM words WHERE ____________ = ____________
+</delete>
