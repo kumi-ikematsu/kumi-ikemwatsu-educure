@@ -2,37 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ToDo入力画面</title>
+    <title>ToDo登録・編集</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 
-<h1 th:if="${toDoForm.id == null}">新規ToDo登録</h1>
-<h1 th:if="${toDoForm.id != null}">ToDo編集</h1>
+<h1>ToDo編集</h1>
 
-<form th:action="${toDoForm.id == null} ? @{/todo/create} : @{/todo/update}" th:object="${toDoForm}" method="post">
-    <input type="hidden" th:field="*{id}">
+<form th:action="@{/todo/create}" th:object="${toDoForm}" method="post">
 
-    <div>
-        <label for="todo">ToDo</label>
-        <input type="text" id="todo" th:field="*{todo}">
-        <span th:if="${#fields.hasErrors('todo')}"
-              th:errors="*{todo}"
-              style="color: red;"></span>
-    </div>
+    <table>
+        <tr>
+            <td>ToDo</td>
+            <td>
+                <input type="text" th:field="*{todo}" />
+                <span class="error-message" th:if="${#fields.hasErrors('todo')}" th:errors="*{todo}"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>詳細</td>
+            <td>
+                <textarea th:field="*{detail}"></textarea>
+                <span class="error-message" th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}"></span>
+            </td>
+        </tr>
+    </table>
 
-    <div>
-        <label for="detail">詳細</label>
-        <textarea id="detail" th:field="*{detail}"></textarea>
-        <span th:if="${#fields.hasErrors('detail')}"
-              th:errors="*{detail}"
-              style="color: red;"></span>
-    </div>
+    <button type="submit">更新</button>
+    <a th:href="@{/todo/list}">戻る</a>
 
-    <div>
-        <button type="submit" th:if="${toDoForm.id == null}">登録</button>
-        <button type="submit" th:if="${toDoForm.id != null}">更新</button>
-        <a th:href="@{/todo}">戻る</a>
-    </div>
 </form>
 
 </body>
