@@ -1,25 +1,14 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>単語登録</title>
-</head>
-<body>
-    <h1>単語登録</h1>
+<form th:action="@{/register}" th:object="${word}" method="post">
 
-    <!-- TODO: th:action と th:object を設定してください -->
-    <form th:action="____________" th:object="____________" method="post">
+    <label>英単語：</label>
+    <input type="text" th:field="*{english}" />
+    <!-- TODO: englishのエラーメッセージを表示してください -->
+    <span th:if="____________" th:errors="____________" style="color:red"></span>
 
-        <label>英単語：</label>
-        <!-- TODO: englishフィールドにバインドするinputを追加してください -->
-        <input type="text" th:field="____________" />
+    <label>日本語訳：</label>
+    <input type="text" th:field="*{japanese}" />
+    <!-- TODO: japaneseのエラーメッセージを表示してください -->
+    <span th:if="____________" th:errors="____________" style="color:red"></span>
 
-        <label>日本語訳：</label>
-        <!-- TODO: japaneseフィールドにバインドするinputを追加してください -->
-        <input type="text" th:field="____________" />
-
-        <button type="submit">登録</button>
-    </form>
-
-    <a href="/words">単語一覧へ</a>
-</body>
-</html>
+    <button type="submit">登録</button>
+</form>
