@@ -1,14 +1,28 @@
 @Service
 public class WordService {
 
-    // TODO: WordMapperをDIしてください
-    ____________ WordMapper wordMapper;
+    @Autowired
+    WordMapper wordMapper;
 
-    // TODO: 単語を登録するメソッドを実装してください
-    // メソッド名：registerWord
-    // 引数：Word オブジェクト
-    // 処理：wordMapperのinsertWordを呼び出す
-    public void registerWord(____________) {
+    public void registerWord(Word word) { ... } // 実装済み
+
+    // TODO: 全件取得メソッドを実装してください
+    public List<Word> getAllWords() {
+        return ____________;
+    }
+
+    // TODO: IDで1件取得するメソッドを実装してください
+    public Word getWordById(____________) {
+        return ____________;
+    }
+
+    // TODO: 単語を更新するメソッドを実装してください
+    public void updateWord(____________) {
+        ____________;
+    }
+
+    // TODO: 単語を削除するメソッドを実装してください
+    public void deleteWord(____________) {
         ____________;
     }
 }
