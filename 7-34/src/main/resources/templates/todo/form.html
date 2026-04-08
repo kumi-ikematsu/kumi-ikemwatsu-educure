@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ToDo入力画面</title>
+</head>
+<body>
+
+<h1 th:if="${toDoForm.id == null}">新規ToDo登録</h1>
+<h1 th:if="${toDoForm.id != null}">ToDo編集</h1>
+
+<form th:action="${toDoForm.id == null} ? @{/todo/create} : @{/todo/update}" th:object="${toDoForm}" method="post">
+    <input type="hidden" th:field="*{id}">
+
+    <div>
+        <label for="todo">ToDo</label>
+        <input type="text" id="todo" th:field="*{todo}">
+        <span th:if="${#fields.hasErrors('todo')}"
+              th:errors="*{todo}"
+              style="color: red;"></span>
+    </div>
+
+    <div>
+        <label for="detail">詳細</label>
+        <textarea id="detail" th:field="*{detail}"></textarea>
+        <span th:if="${#fields.hasErrors('detail')}"
+              th:errors="*{detail}"
+              style="color: red;"></span>
+    </div>
+
+    <div>
+        <button type="submit" th:if="${toDoForm.id == null}">登録</button>
+        <button type="submit" th:if="${toDoForm.id != null}">更新</button>
+        <a th:href="@{/todo}">戻る</a>
+    </div>
+</form>
+
+</body>
+</html>
