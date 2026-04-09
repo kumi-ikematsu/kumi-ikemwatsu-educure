@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クイズ - 英単語学習アプリ</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1><a th:href="@{/}">英単語学習アプリ</a></h1>
+</header>
+<main>
+    <div class="card">
+        <h2>英単語クイズ</h2>
+
+        <!-- 単語未登録エラー -->
+        <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+        <div th:if="${errorMessage}" style="margin-top: 12px;">
+            <a th:href="@{/words/new}" class="btn btn-primary">単語を登録する</a>
+            <a th:href="@{/}" class="back-link" style="margin-left: 12px;">← トップへ戻る</a>
+        </div>
+
+        <!-- 全問終了 -->
+        <div th:if="${finished}" class="quiz-finished">
+            <p style="font-size: 1.4rem; font-weight: 700; color: #4a90d9; margin-bottom: 12px;">クイズ終了！</p>
+            <p th:text="|${totalCount}問中${correctCount}問正解でした！|" style="margin-bottom: 8px;"></p>
+            <p th:text="|正解率：${correctRate}％|" style="font-size: 1.1rem; color: #555;"></p>
+            <div style="margin-top: 24px; display: flex; gap: 12px; justify-content: center;">
+                <a th:href="@{/quiz}" class="btn btn-primary">もう一度挑戦する</a>
+                <a th:href="@{/}"     class="btn btn-secondary">トップへ戻る</a>
+            </div>
+        </div>
+
+        <!-- クイズ進行中 -->
+        <div th:unless="${finished or errorMessage != null}">
+
+            <!-- 前問の正誤 -->
+            <div th:if="${lastResult != null}">
+                <div th:if="${lastResult.correct}" class="quiz-result correct">
+                    ✅ 正解です！
+                </div>
+                <div th:unless="${lastResult.correct}" class="quiz-result incorrect">
+                    ❌ 不正解です。正解は「<span th:text="${lastResult.correctJapanese}"></span>」でした。
+                </div>
+            </div>
+
+            <!-- スコア -->
+            <div class="quiz-score">
+                正解数：<strong th:text="${correctCount}"></strong>
+                ／ <strong th:text="${totalCount}"></strong> 問
+            </div>
+
+            <!-- 問題 -->
+            <div th:if="${quiz != null}">
+                <p style="text-align: center; color: #888; margin-bottom: 4px;">
+                    次の英単語の日本語訳は？
+                </p>
+                <div class="quiz-word" th:text="${quiz.english}"></div>
+
+                <form th:action="@{/quiz/answer}" method="post">
+                    <div class="form-group">
+                        <input type="text" name="answer"
+                               placeholder="日本語訳を入力してください"
+                               autofocus autocomplete="off"
+                               style="text-align: center; font-size: 1.1rem;">
+                    </div>
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary"
+                                style="font-size: 1rem; padding: 12px 32px;">
+                            回答する
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="text-align: center; margin-top: 24px;">
+                <a th:href="@{/}" class="back-link">← トップへ戻る</a>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
