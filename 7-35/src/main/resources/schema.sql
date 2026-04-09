@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS words (
+    id         SERIAL PRIMARY KEY,
+    english    VARCHAR(100) NOT NULL,
+    japanese   VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_english ON words (english);
