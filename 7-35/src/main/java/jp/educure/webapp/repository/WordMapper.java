@@ -32,11 +32,13 @@ public interface WordMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(Word word);
 
+    // 戻り値を int（更新件数）に変更
     @Update("UPDATE words SET japanese = #{japanese}, updated_at = CURRENT_TIMESTAMP WHERE id = #{id}")
-    void update(Word word);
+    int update(Word word);
 
+    // 戻り値を int（削除件数）に変更
     @Delete("DELETE FROM words WHERE id = #{id}")
-    void delete(Integer id);
+    int delete(Integer id);
 
     @Select("SELECT COUNT(*) FROM words")
     int count();
