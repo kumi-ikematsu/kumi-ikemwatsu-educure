@@ -36,13 +36,15 @@ public class WordServiceImpl implements WordService {
     }
 
     @Override
-    public void update(Word word) {
-        wordMapper.update(word);
+    public boolean update(Word word) {
+        // 影響行数が 1 以上なら成功
+        return wordMapper.update(word) > 0;
     }
 
     @Override
-    public void delete(Integer id) {
-        wordMapper.delete(id);
+    public boolean delete(Integer id) {
+        // 影響行数が 1 以上なら成功
+        return wordMapper.delete(id) > 0;
     }
 
     @Override
