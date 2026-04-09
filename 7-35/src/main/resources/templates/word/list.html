@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>単語一覧 - 英単語学習アプリ</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1><a th:href="@{/}">英単語学習アプリ</a></h1>
+</header>
+<main>
+    <div class="card">
+        <h2>単語一覧</h2>
+
+        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${errorMessage}"   class="alert alert-error"   th:text="${errorMessage}"></div>
+
+        <div style="margin-bottom: 16px;">
+            <a th:href="@{/words/new}" class="btn btn-primary">＋ 新規登録</a>
+        </div>
+
+        <p th:if="${#lists.isEmpty(words)}">登録された単語がありません。</p>
+
+        <table th:unless="${#lists.isEmpty(words)}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>英単語</th>
+                    <th>日本語訳</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="word : ${words}">
+                    <td th:text="${word.id}"></td>
+                    <td th:text="${word.english}"></td>
+                    <td th:text="${word.japanese}"></td>
+                    <td>
+                        <a th:href="@{/words/{id}(id=${word.id})}"
+                           class="btn btn-secondary"
+                           style="padding: 6px 12px; font-size: 0.85rem;">詳細</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/}" class="back-link">← トップへ戻る</a>
+    </div>
+</main>
+</body>
+</html>
