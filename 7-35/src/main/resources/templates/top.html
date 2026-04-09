@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英単語学習アプリ</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header>
+    <h1><a th:href="@{/}">英単語学習アプリ</a></h1>
+</header>
+<main>
+    <div class="card">
+        <h2>メインメニュー</h2>
+        <ul class="menu-list">
+            <li><a th:href="@{/quiz}">1. クイズに挑戦する</a></li>
+            <li><a th:href="@{/words}">2. 単語を管理する</a></li>
+        </ul>
+    </div>
+</main>
+</body>
+</html>
