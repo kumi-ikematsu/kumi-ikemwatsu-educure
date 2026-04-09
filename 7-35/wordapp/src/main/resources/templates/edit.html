@@ -6,17 +6,15 @@
 <body>
     <h1>単語編集</h1>
 
-    <!-- TODO: action="/words/update"、th:object="${word}" を設定してください -->
-    <form th:action="____________" th:object="____________" method="post">
+    <form th:action="@{/words/update}" th:object="${word}" method="post">
 
-        <!-- TODO: idを hidden で送信してください -->
-        <input type="hidden" th:field="____________" />
+        <input type="hidden" th:field="*{id}" />
 
         <label>英単語：</label>
-        <input type="text" th:field="____________" />
+        <input type="text" th:field="*{english}" />
 
         <label>日本語訳：</label>
-        <input type="text" th:field="____________" />
+        <input type="text" th:field="*{japanese}" />
 
         <button type="submit">更新</button>
     </form>
