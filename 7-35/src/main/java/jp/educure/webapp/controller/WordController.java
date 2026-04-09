@@ -89,7 +89,15 @@ public class WordController {
         }
         wordForm.setId(id);
         Word word = wordHelper.toEntity(wordForm);
-        wordService.update(word);
+
+        boolean updated = wordService.update(word);
+        if (!updated) {
+            // 対象IDが存在しない場合はエラーメッセージを表示して一覧へ
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "更新対象の単語が見つかりませんでした。");
+            return "redirect:/words";
+        }
+
         redirectAttributes.addFlashAttribute("successMessage", "単語を更新しました。");
         return "redirect:/words/" + id;
     }
@@ -98,7 +106,15 @@ public class WordController {
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Integer id,
                          RedirectAttributes redirectAttributes) {
-        wordService.delete(id);
+
+        boolean deleted = wordService.delete(id);
+        if (!deleted) {
+            // 対象IDが存在しない場合はエラーメッセージを表示
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "削除対象の単語が見つかりませんでした。");
+            return "redirect:/words";
+        }
+
         redirectAttributes.addFlashAttribute("successMessage", "単語を削除しました。");
         return "redirect:/words";
     }
