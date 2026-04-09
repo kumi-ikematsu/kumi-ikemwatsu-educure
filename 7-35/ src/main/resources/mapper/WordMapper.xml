@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.wordapp.mapper.WordMapper">
+
+    <!-- 単語を1件登録 -->
+    <insert id="insertWord">
+        INSERT INTO words (english, japanese)
+        VALUES (#{english}, #{japanese})
+    </insert>
+
+    <!-- 全件取得 -->
+    <select id="findAll" resultType="com.example.wordapp.entity.Word">
+        SELECT * FROM words
+    </select>
+
+    <!-- IDで1件取得 -->
+    <select id="findById" resultType="com.example.wordapp.entity.Word">
+        SELECT * FROM words WHERE id = #{id}
+    </select>
+
+    <!-- 単語を更新 -->
+    <update id="updateWord">
+        UPDATE words
+        SET english = #{english},
+            japanese = #{japanese}
+        WHERE id = #{id}
+    </update>
+
+    <!-- IDで削除 -->
+    <delete id="deleteWord">
+        DELETE FROM words WHERE id = #{id}
+    </delete>
+
+</mapper>
