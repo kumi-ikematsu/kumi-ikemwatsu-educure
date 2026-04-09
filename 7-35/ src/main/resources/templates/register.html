@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>単語登録</title>
+</head>
+<body>
+    <h1>単語登録</h1>
+
+    <form th:action="@{/register}" th:object="${word}" method="post">
+
+        <label>英単語：</label>
+        <input type="text" th:field="*{english}" />
+
+        <label>日本語訳：</label>
+        <input type="text" th:field="*{japanese}" />
+
+        <button type="submit">登録</button>
+    </form>
+
+    <a href="/words">一覧へ戻る</a>
+</body>
+</html>
