@@ -12,9 +12,9 @@ public interface WordService {
 
     void save(Word word);
 
-    void update(Word word);
+    boolean update(Word word);
 
-    void delete(Integer id);
+    boolean delete(Integer id);
 
     int count();
 }
