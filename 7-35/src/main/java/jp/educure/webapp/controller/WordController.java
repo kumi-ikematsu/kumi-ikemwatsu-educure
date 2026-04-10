@@ -92,7 +92,6 @@ public class WordController {
 
         boolean updated = wordService.update(word);
         if (!updated) {
-            // 対象IDが存在しない場合はエラーメッセージを表示して一覧へ
             redirectAttributes.addFlashAttribute("errorMessage",
                     "更新対象の単語が見つかりませんでした。");
             return "redirect:/words";
@@ -109,7 +108,6 @@ public class WordController {
 
         boolean deleted = wordService.delete(id);
         if (!deleted) {
-            // 対象IDが存在しない場合はエラーメッセージを表示
             redirectAttributes.addFlashAttribute("errorMessage",
                     "削除対象の単語が見つかりませんでした。");
             return "redirect:/words";
